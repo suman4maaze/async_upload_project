@@ -3,6 +3,7 @@ from .models import Document
 
 
 class DocumentSerializers(serializers.ModelSerializer):
+    file = serializers.FileField()
     class Meta:
         model = Document
-        fields =['file', 'uploaded_at']
+        fields =['file', 'created_at']

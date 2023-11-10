@@ -6,7 +6,6 @@ from django.http import JsonResponse
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.views import APIView
 from rest_framework import status
-from rest_framework.response import Response
 from .serializers import DocumentSerializers
 from .services import DocumentService
 from django.conf import settings
@@ -14,14 +13,17 @@ from django.conf import settings
 class DocumentUploadView(APIView):
     parser_classes = (MultiPartParser, FormParser)
 
-    def post(self, request, *args, **kwargs):
-        file = request.data.get("file", None)
-        if file is None:
-            pass
-        else:
-            self.call_stored_procedure(file)
-            return Response(data = file, status=status.HTTP_201_CREATED)
+    async def post(self, request, *args, **kwargs):
+        file_serializer = DocumentSerializers(data=request.data)
 
+        if file_serializer.is_valid():
+            document, file_path = DocumentService.upload_document(request.data['file'])
+
+            await self.call_stored_procedure(file_path)
+
+            return JsonResponse(DocumentSerializers(document).data, status=status.HTTP_201_CREATED)
+        else:
+            return JsonResponse({'error': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
 
     async def call_stored_procedure(self, file_path):
         """Use an asynchronous connection to the database"""
@@ -38,5 +40,5 @@ class DocumentUploadView(APIView):
                     # print(settings.DATABASES['default']['PORT'])
                     await connection.execute(
                         "SELECT public.sample_upload_file($1)",
-                        file_path
+                        file_path,
                     )

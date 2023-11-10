@@ -72,13 +72,37 @@ WSGI_APPLICATION = 'file_upload.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ["DB_NAME"],
-        'USER': os.environ["DB_USER"],
-        'PASSWORD': os.environ["DB_PASSWORD"],
-        'HOST': os.environ["DB_HOST"],
-        'PORT': os.environ["DB_PORT"],
+        #'NAME': 'TruckIndDB',
+        #'NAME': os.getenv('db_name'),
+        #'NAME': os.environ['NAME'],
+        'NAME':'falcondbnew2022',
+        #'NAME': 'dd21t9dbu9d5fc',
+        #'NAME':'d31kkhodt6k2pd',
+        #'USER':'dexwdojwynhgbo',
+        #'USER':'gtyntnnumyrhdt',
+        #'NAME': 'ins',
+        #'USER':os.environ['USER'],
+        'USER':'falconadmin',
+        #'USER': os.getenv('db_user'),
+        #'PASSWORD': '46e15532c5843dafdb7faeec89e7715389ae5693ddd434f95bcd596adfc05bc3',
+        #'PASSWORD': os.environ['PASSWORD'],
+        #'PASSWORD': 'Shamanth@1994',
+        'PASSWORD':'Nta@2022$$!',
+        #'PASSWORD': os.getenv('db_password'),
+        #'HOST': 'ec2-3-224-157-224.compute-1.amazonaws.com',
+        'HOST':'falcondbnew2022.postgres.database.azure.com',
+        #'HOST':os.environ['HOST'],
+        #'HOST': 'localhost',
+        #'HOST': os.getenv('db_host'),
+        'OPTIONS':{
+        'sslmode':'require'
+        },
+        #'PORT':os.getenv('db_port')
+        'PORT': '5432',
+        
     }
 }
+
 
 
 # Password validation
